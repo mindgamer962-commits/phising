@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="aboutContainer">
+    <header class="aboutHeader">
+        <h1 class="aboutTitle">About Phishing Detector</h1>
+        <p class="aboutSubtitle">Educational research project on cyber-security threats.</p>
+    </header>
+
+    <div class="aboutContent">
+        <h2>Our Mission</h2>
+        <p>This website was developed as part of a technical project to address the growing concern of phishing attacks.
+            Our goal is to provide a functional demonstration of how heuristic analysis can be used to identify
+            suspicious digital communications and educate users on prevention techniques.</p>
+
+        <h2>Key Technologies</h2>
+        <p>The system utilizes an advanced heuristic engine built with modern web technologies. Unlike traditional
+            blacklists, our engine analyzes the structural patterns of URLs and emails in real-time to detect threats
+            like typosquatting, credential harvesting, and social engineering patterns.</p>
+
+        <h2>Cyber-Security in India</h2>
+        <p>As digital adoption accelerates in India, the frequency of phishing attacks has seen a significant rise. This
+            tool is designed with a focus on localized threats, addressing the unique challenges faced by users in the
+            Indian digital ecosystem, from banking scams to localized UPI frauds.</p>
+
+        <h2>Privacy & Data Security</h2>
+        <p>User privacy is a core principle of this project. The analysis performed by this tool is stateless—we do not
+            store your scanned links, text content, or uploaded files. All processing is done for immediate results and
+            discarded immediately after the session concludes.</p>
+    </div>
+</div>
+{% endblock %}

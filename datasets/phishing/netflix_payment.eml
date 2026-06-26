@@ -1,0 +1,16 @@
+From: "Netflix Billing" <billing@netfllix-renew.com>
+To: user@example.com
+Subject: Your Membership is on Hold
+Date: Wed, 25 Feb 2026 16:45:00 +0000
+Content-Type: text/plain; charset="UTF-8"
+
+Hi,
+
+We're having some trouble with your current billing information. 
+We'll try again, but in the meantime you may want to update your payment details.
+
+UPDATE PAYMENT: http://netflix-billing-update.xyz/account
+
+If you don't update your information, your subscription will be cancelled.
+
+The Netflix Team

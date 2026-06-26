@@ -1,0 +1,14 @@
+Subject: URGENT: Action Required for your account
+From: service@bnnk-of-amerca.com
+Date: Wednesday, Feb 25, 2026
+
+URGENT NOTICE:
+
+Due to a security breach at our main server, all accounts have been put on hold.
+To restore Access to your account, you must provide your Social Security Number and PIN.
+
+Visit the secure portal: http://192.168.1.102/bank/secure/login.php
+
+Failure to comply within 1 hour will result in total loss of funds.
+
+Bank Manager

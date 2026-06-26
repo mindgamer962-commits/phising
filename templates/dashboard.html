@@ -1,0 +1,364 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="dashboard-section">
+    <div class="container">
+        <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <h1><i data-lucide="layout-dashboard"></i> Detection Dashboard</h1>
+                <p>Performance trends of the Phishing Detector AI Engine</p>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <a href="/" class="btn btn-outline" style="border-color: #64748b; color: #64748b; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 6px; font-weight: 600;">
+                    <i data-lucide="arrow-left" style="width: 18px;"></i> Back to Scanner
+                </a>
+                <button id="retrain-btn" class="btn btn-outline" style="border-color: #2563eb; color: #2563eb; font-weight: 600;">
+                    <i data-lucide="refresh-cw"></i> Retrain AI Engine
+                </button>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Personal History List -->
+            <div class="dashboard-card history-card">
+                <h3><i data-lucide="user"></i> My Recent Scans</h3>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Email Source</th>
+                                <th>Risk</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for scan in user_scans %}
+                            <tr>
+                                <td>{{ scan.created_at.strftime('%m/%d') }}</td>
+                                <td>
+                                    <span class="badge" style="background: #f1f5f9; color: #475569;">
+                                        {% if scan.type == 'email' %}
+                                            {% if 'File:' in scan.identifier %}Uploaded File{% else %}Pasted Email{% endif %}
+                                        {% elif scan.type == 'url' %}URL Scan
+                                        {% elif scan.type == 'file' %}System File
+                                        {% else %}{{ scan.type|capitalize }}{% endif %}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if (scan.score * 100) >= 70 %}
+                                    <span style="color: #dc2626; font-weight: 700;">High</span>
+                                    {% elif (scan.score * 100) >= 30 %}
+                                    <span style="color: #f59e0b; font-weight: 700;">Medium</span>
+                                    {% else %}
+                                    <span style="color: #16a34a; font-weight: 700;">Low</span>
+                                    {% endif %}
+                                </td>
+                                <td style="font-weight: 600;">{{ (scan.score * 100)|round(2) }}%</td>
+                            </tr>
+{% else %}
+                            <tr>
+                                <td colspan="5" style="text-align: center;">You haven't performed any scans yet.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        <!-- KPI Metrics Header -->
+        <div class="kpi-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; margin-top: 1.5rem;">
+            <div class="kpi-card" style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                <div style="background: #eff6ff; color: #2563eb; padding: 0.75rem; border-radius: 8px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                    <i data-lucide="scan"></i>
+                </div>
+                <div>
+                    <span style="display: block; font-size: 0.85rem; color: #64748b; font-weight: 600;">Total Scans</span>
+                    <span style="font-size: 1.5rem; font-weight: 800; color: #1e293b;" id="kpi-total-scans">0</span>
+                </div>
+            </div>
+            <div class="kpi-card" style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                <div style="background: #fef2f2; color: #dc2626; padding: 0.75rem; border-radius: 8px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                    <i data-lucide="shield-alert"></i>
+                </div>
+                <div>
+                    <span style="display: block; font-size: 0.85rem; color: #64748b; font-weight: 600;">Threats Blocked</span>
+                    <span style="font-size: 1.5rem; font-weight: 800; color: #dc2626;" id="kpi-threats">0</span>
+                </div>
+            </div>
+            <div class="kpi-card" style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                <div style="background: #fffbeb; color: #d97706; padding: 0.75rem; border-radius: 8px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                    <i data-lucide="activity"></i>
+                </div>
+                <div>
+                    <span style="display: block; font-size: 0.85rem; color: #64748b; font-weight: 600;">Avg. Risk Score</span>
+                    <span style="font-size: 1.5rem; font-weight: 800; color: #1e293b;" id="kpi-avg-risk">0%</span>
+                </div>
+            </div>
+            <div class="kpi-card" style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                <div style="background: #f0fdf4; color: #16a34a; padding: 0.75rem; border-radius: 8px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                    <i data-lucide="check-circle"></i>
+                </div>
+                <div>
+                    <span style="display: block; font-size: 0.85rem; color: #64748b; font-weight: 600;">System Accuracy</span>
+                    <span style="font-size: 1.5rem; font-weight: 800; color: #16a34a;" id="kpi-accuracy">0%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Overview -->
+        <h2 style="margin: 2rem 0 1.25rem; display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; color: #0f172a;"><i data-lucide="bar-chart-2"></i> Intelligence Insights</h2>
+        <div class="analytics-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+            <!-- Graph 1: Phishing vs Legitimate -->
+            <div class="chart-card" style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; min-height: 350px; display: flex; flex-direction: column;">
+                <h4 style="margin: 0 0 1.5rem 0; font-weight: 700; color: #334155; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="pie-chart" style="width: 18px;"></i> Detection Ratio</h4>
+                <div style="flex: 1; position: relative;">
+                    <canvas id="phishingChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Graph 2: Scans Over Time -->
+            <div class="chart-card" style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; min-height: 350px; display: flex; flex-direction: column;">
+                <h4 style="margin: 0 0 1.5rem 0; font-weight: 700; color: #334155; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="trending-up" style="width: 18px;"></i> Activity Trends</h4>
+                <div style="flex: 1; position: relative;">
+                    <canvas id="scanGraph"></canvas>
+                </div>
+            </div>
+
+            <!-- Graph 3: Scan Distribution -->
+            <div class="chart-card" style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; min-height: 350px; display: flex; flex-direction: column;">
+                <h4 style="margin: 0 0 1.5rem 0; font-weight: 700; color: #334155; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="layers" style="width: 18px;"></i> Scan Sources</h4>
+                <div style="flex: 1; position: relative;">
+                    <canvas id="distributionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Graph 4: Top Indicators -->
+            <div class="chart-card" style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; min-height: 350px; display: flex; flex-direction: column;">
+                <h4 style="margin: 0 0 1.5rem 0; font-weight: 700; color: #334155; display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="brain-circuit" style="width: 18px;"></i> Threat Behavioral Map</h4>
+                <div style="flex: 1; position: relative;">
+                    <canvas id="indicatorChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+            <!-- History Table Card -->
+            <div class="dashboard-card table-card">
+                <h3><i data-lucide="history"></i> Model Update History</h3>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Model Name</th>
+                                <th>Version</th>
+                                <th>Accuracy</th>
+                                <th>F1 Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in history %}
+                            <tr>
+                                <td>{{ record.training_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                                <td>{{ record.model_type }}</td>
+                                <td>{{ record.version }}</td>
+                                <td><span class="badge badge-success">{{ (record.accuracy * 100)|round(2) }}%</span>
+                                </td>
+                                <td><span class="badge badge-info">{{ (record.f1_score * 100)|round(2) }}%</span></td>
+                                <td>
+                                    {% if record.active_status %}
+                                    <span class="status-active">Active</span>
+                                    {% else %}
+                                    <span class="status-inactive">Inactive</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="6" style="text-align: center;">No model history data available.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const stats = JSON.parse('{{ stats | safe }}' || '{}');
+        
+        // 0. Populate KPI Cards
+        if (stats.kpis) {
+            document.getElementById('kpi-total-scans').innerText = stats.kpis.total_scans;
+            document.getElementById('kpi-threats').innerText = stats.kpis.threats_blocked;
+            document.getElementById('kpi-avg-risk').innerText = stats.kpis.avg_risk + '%';
+            document.getElementById('kpi-accuracy').innerText = (stats.kpis.system_accuracy * 100).toFixed(1) + '%';
+        }
+
+        // --- CHART CONFIGURATIONS ---
+        const colors = {
+            blue: '#2563eb',
+            red: '#dc2626',
+            green: '#16a34a',
+            yellow: '#f59e0b',
+            purple: '#7c3aed',
+            indigo: '#4f46e5',
+            gray: '#64748b'
+        };
+
+        // 1. Detection Ratio (Pie)
+        const phishingChartCtx = document.getElementById('phishingChart').getContext('2d');
+        new Chart(phishingChartCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Phishing', 'Legitimate'],
+                datasets: [{
+                    data: [stats.phishing_vs_legitimate.phishing, stats.phishing_vs_legitimate.legitimate],
+                    backgroundColor: [colors.red, colors.green],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, font: { weight: 'bold' } } }
+                },
+                cutout: '70%'
+            }
+        });
+
+        // 2. Activity Trends (Line)
+        const scanChartCtx = document.getElementById('scanGraph').getContext('2d');
+        new Chart(scanChartCtx, {
+            type: 'line',
+            data: {
+                labels: stats.scans_over_time.labels,
+                datasets: [{
+                    label: 'Daily Scans',
+                    data: stats.scans_over_time.data,
+                    borderColor: colors.blue,
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: colors.blue,
+                    pointRadius: 4
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { display: false } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // 3. Scan Sources (Doughnut)
+        const distributionChartCtx = document.getElementById('distributionChart').getContext('2d');
+        new Chart(distributionChartCtx, {
+            type: 'polarArea',
+            data: {
+                labels: ['URL', 'Email', 'File'],
+                datasets: [{
+                    data: [stats.scan_distribution.url, stats.scan_distribution.email, stats.scan_distribution.file],
+                    backgroundColor: [
+                        'rgba(37, 99, 235, 0.7)',
+                        'rgba(124, 58, 237, 0.7)',
+                        'rgba(16, 185, 129, 0.7)'
+                    ]
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+
+        // 4. Behavioral Map (Radar/Radar Bar)
+        const indicatorChartCtx = document.getElementById('indicatorChart').getContext('2d');
+        new Chart(indicatorChartCtx, {
+            type: 'radar',
+            data: {
+                labels: stats.top_indicators.labels,
+                datasets: [{
+                    label: 'Threat Intensity',
+                    data: stats.top_indicators.data,
+                    backgroundColor: 'rgba(220, 38, 38, 0.2)',
+                    borderColor: colors.red,
+                    pointBackgroundColor: colors.red,
+                    borderWidth: 2
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 1.0,
+                        ticks: { display: false }
+                    }
+                }
+            }
+        });
+
+        // --- INTERACTIVITY: TABLE FILTERING ---
+        // Simple logic to highlight rows based on risk if needed
+        const filterTableByRisk = (risk) => {
+            const rows = document.querySelectorAll('.data-table tbody tr');
+            rows.forEach(row => {
+                const riskCell = row.cells[2].innerText.toLowerCase();
+                if (risk === 'all' || riskCell.includes(risk.toLowerCase())) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        };
+
+        // Example: Add clear filter button or just log for now
+        console.log("Dashboard Interactive Engine Loaded.");
+    
+    // Retrain Logic
+    document.getElementById('retrain-btn').addEventListener('click', async function () {
+        if (!confirm("Are you sure you want to retrain the AI models? This may take a few seconds.")) return;
+
+        const btn = this;
+        const originalHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i data-lucide="loader-2" class="spin"></i> Retraining...';
+        lucide.createIcons();
+
+        try {
+            const response = await fetch('/api/retrain', { method: 'POST' });
+            const data = await response.json();
+            if (data.success) {
+                alert(`Success! Models retrained.\nEmail Accuracy: ${(data.email_accuracy * 100).toFixed(2)}%\nFile Accuracy: ${(data.file_accuracy * 100).toFixed(2)}%`);
+                window.location.reload();
+            } else {
+                alert("Error: " + data.error);
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+                lucide.createIcons();
+            }
+        } catch (err) {
+            alert("Failed to connect to server.");
+            btn.disabled = false;
+            btn.innerHTML = originalHtml;
+            lucide.createIcons();
+        }
+    });
+    });
+</script>
+{% endblock %}

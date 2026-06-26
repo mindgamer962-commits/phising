@@ -1,0 +1,211 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="wpContainer">
+    <header class="aboutHeader">
+        <h1 class="aboutTitle">What is Phishing?</h1>
+        <p class="aboutSubtitle">Understanding social engineering and how to stay safe.</p>
+    </header>
+
+    <section class="wpSection">
+        <h2 class="wpSectionTitle">How Phishing Works</h2>
+        <div class="textBlock">
+            <h3>1. The Initial Contact</h3>
+            <p>Phishing typically begins with a deceptive message sent via email, SMS, or social media. These messages
+                are designed to look like they come from a trusted source, such as your bank, a popular online store, or
+                even a colleague.</p>
+        </div>
+
+        <div class="textBlock">
+            <h3>2. Creating Urgency</h3>
+            <p>To force you into making a quick decision, the message often creates a sense of urgency or fear. It might
+                claim that your account has been compromised, a payment failed, or that you need to verify your identity
+                immediately to avoid losing access.</p>
+        </div>
+
+        <div class="textBlock">
+            <h3>3. The Malicious Link</h3>
+            <p>The message contains a link that supposedly takes you to a secure site to resolve the issue. In reality,
+                the link leads to a fake website that looks identical to the real one but is controlled by the attacker.
+            </p>
+        </div>
+
+        <div class="textBlock">
+            <h3>4. Data Theft</h3>
+            <p>Once you enter your username, password, or credit card details on the fake site, the attacker captures
+                this information. They can then use it to access your real accounts, steal your money, or sell your data
+                on the dark web.</p>
+        </div>
+    </section>
+
+    <section class="wpSection">
+        <h2 class="wpSectionTitle">Safety Checklist</h2>
+        <div class="checklist">
+            <ul>
+                <li><strong>Check sender details:</strong> Look for subtle spelling errors in the email address.</li>
+                <li><strong>Verify the URL:</strong> Hover over links to see where they actually lead.</li>
+                <li><strong>Don't trust urgency:</strong> Be suspicious of any message requiring immediate action with
+                    sensitive data.</li>
+                <li><strong>Use 2FA:</strong> Enable Two-Factor Authentication on all your important accounts.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="videoSection">
+        <h2 class="wpSectionTitle">🎥 Educational Video Gallery</h2>
+        <div class="videoGallery">
+            <!-- Video 1 -->
+            <div class="videoCard">
+                <div class="videoEmbed">
+                    <iframe src="https://www.youtube.com/embed/3GBmpqhQI8s" title="Phishing Awareness Video 1" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="videoInfo">
+                    <h4>What is Phishing?</h4>
+                    <p>A comprehensive overview of phishing attacks and how they target individuals.</p>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="videoCard">
+                <div class="videoEmbed">
+                    <iframe src="https://www.youtube.com/embed/HsUA3tguWZc" title="Phishing Awareness Video 2" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="videoInfo">
+                    <h4>Phishing Scams Explained</h4>
+                    <p>Learn to identify common red flags in suspicious messages.</p>
+                </div>
+            </div>
+
+            <!-- Video 3 -->
+            <div class="videoCard">
+                <div class="videoEmbed">
+                    <iframe src="https://www.youtube.com/embed/vqiRHdTx0pY" title="Phishing Awareness Video 3" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="videoInfo">
+                    <h4>How to Stop Phishing</h4>
+                    <p>Practical steps to protect your personal and professional information.</p>
+                </div>
+            </div>
+
+            <!-- Video 4 -->
+            <div class="videoCard">
+                <div class="videoEmbed">
+                    <iframe src="https://www.youtube.com/embed/FfV1hqb7v74" title="Phishing Awareness Video 4" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="videoInfo">
+                    <h4>Identifying Phishing Attacks</h4>
+                    <p>Real-world examples of phishing and how to spot them before clicking.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="resourceSection">
+        <h2 class="wpSectionTitle">📚 Trusted Resources & Learning Materials</h2>
+
+        <h3 class="resourceSubTitle">🌐 Official Cybersecurity Organizations</h3>
+        <p class="sectionDesc">Direct access to national and international bodies providing critical alerts and
+            reporting portals.</p>
+        <div class="resourceGrid">
+            <div class="resourceCard">
+                <div>
+                    <span class="locationBadge India">India</span>
+                    <h4>Indian Cyber Crime Portal</h4>
+                    <p>Official Government of India portal to report phishing and cybercrime incidents.</p>
+                </div>
+                <a href="https://cybercrime.gov.in" target="_blank" class="resourceLink">Report Incident <i
+                        data-lucide="external-link"></i></a>
+            </div>
+
+            <div class="resourceCard">
+                <div>
+                    <span class="locationBadge India">India</span>
+                    <h4>CERT-In</h4>
+                    <p>National agency providing cybersecurity alerts and phishing advisories for Indian cyber space.
+                    </p>
+                </div>
+                <a href="https://www.cert-in.org.in" target="_blank" class="resourceLink">Explore Alerts <i
+                        data-lucide="external-link"></i></a>
+            </div>
+
+
+            <div class="resourceCard">
+                <div>
+                    <span class="locationBadge UK">UK</span>
+                    <h4>NCSC - Phishing Defense</h4>
+                    <p>UK National Cyber Security Centre's comprehensive organization defense strategy.</p>
+                </div>
+                <a href="https://www.ncsc.gov.uk/guidance/phishing" target="_blank" class="resourceLink">View Strategy
+                    <i data-lucide="external-link"></i></a>
+            </div>
+
+            <div class="resourceCard">
+                <div>
+                    <span class="locationBadge EU">EU</span>
+                    <h4>ENISA - Cyber Hygiene</h4>
+                    <p>European Union Agency for Cybersecurity guidelines on phishing-resistant authentication.</p>
+                </div>
+                <a href="https://www.enisa.europa.eu" target="_blank" class="resourceLink">Learn More <i
+                        data-lucide="external-link"></i></a>
+            </div>
+
+            <div class="resourceCard">
+                <div>
+                    <span class="locationBadge Global">Global</span>
+                    <h4>Anti-Phishing Working Group</h4>
+                    <p>Global coalition dedicated to eradicating online fraud and phishing scams.</p>
+                </div>
+                <a href="https://apwg.org" target="_blank" class="resourceLink">Visit APWG <i
+                        data-lucide="external-link"></i></a>
+            </div>
+        </div>
+
+
+        <h3 class="resourceSubTitle">📰 Essential Articles & Identifying Guides</h3>
+        <p class="sectionDesc">In-depth reading from investigative journalists and security experts.</p>
+        <div class="resourceGrid">
+            <div class="resourceCard">
+                <div>
+                    <h4>Krebs on Security</h4>
+                    <p>Investigative journalism on cybercrime and emerging phishing-as-a-service threats.</p>
+                </div>
+                <a href="https://krebsonsecurity.com" target="_blank" class="resourceLink">Read Krebs <i
+                        data-lucide="external-link"></i></a>
+            </div>
+
+            <div class="resourceCard">
+                <div>
+                    <h4>The Hacker News</h4>
+                    <p>Real-time updates on phishing campaigns, data breaches, and threat intelligence.</p>
+                </div>
+                <a href="https://thehackernews.com" target="_blank" class="resourceLink">Visit News <i
+                        data-lucide="external-link"></i></a>
+            </div>
+
+
+            <div class="resourceCard">
+                <div>
+                    <h4>Microsoft Security Blog</h4>
+                    <p>Deep-dives into cloud phishing threats and how to protect workplace identities.</p>
+                </div>
+                <a href="https://www.microsoft.com/en-us/security/blog/" target="_blank" class="resourceLink">Read Blog
+                    <i data-lucide="external-link"></i></a>
+            </div>
+        </div>
+
+        <h3 class="resourceSubTitle">🛠️ Security Awareness Tools</h3>
+        <p class="sectionDesc">Tools and platforms for continuous phishing simulation and training.</p>
+        <div class="resourceGrid">
+
+            <div class="resourceCard">
+                <div>
+                    <h4>PhishTank</h4>
+                    <p>A collaborative database for verifying and reporting phishing URLs in real-time.</p>
+                </div>
+                <a href="https://www.phishtank.com" target="_blank" class="resourceLink">Check Database <i
+                        data-lucide="external-link"></i></a>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

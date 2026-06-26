@@ -1,0 +1,13 @@
+Subject: Project Sync Meeting
+From: sarah.manager@company.com
+Date: Wednesday, Feb 25, 2026
+
+Hi Team,
+
+I've scheduled a project sync meeting for tomorrow at 10:00 AM. 
+We will discuss the progress of the phishing detector integration.
+
+Please find the agenda attached.
+
+Regards,
+Sarah

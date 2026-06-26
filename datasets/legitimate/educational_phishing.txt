@@ -1,0 +1,5 @@
+Subject: Educational Awareness: What is Phishing? 
+
+Phishing is a method where attackers try to steal your credentials by masquerading as a trustworthy entity.
+Always verify the sender and hover over links before clicking.
+Stay safe online!

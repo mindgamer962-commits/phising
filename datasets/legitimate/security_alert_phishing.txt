@@ -1,0 +1,6 @@
+Security Alert: New Phishing Campaign Detected
+
+We have detected a new phishing campaign targeting our domain.
+The attackers are using "Urgent Account Update" subjects.
+Please report any suspicious emails to security@company.com.
+This is an automated notice for your protection.

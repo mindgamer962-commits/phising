@@ -1,0 +1,31 @@
+text,label
+"Urgent: Your account has been locked. Click here to verify your identity.",phishing
+"Final Reminder: Your invoice #5543 is overdue. Please pay immediately.",phishing
+"Congratulations! You've won a $1000 Amazon Gift Card. Claim now.",phishing
+"Unusual login attempt detected. Secure your account using this link.",phishing
+"Dear Customer, update your banking details to avoid service suspension.",phishing
+"Meeting scheduled for tomorrow at 10 AM.",legit
+"Can you please send me the report by EOD?",legit
+"The project deadline has been extended to Friday.",legit
+"Dinner plans for tonight? Let me know.",legit
+"Flight confirmation: Your booking to New York is confirmed.",legit
+"Warning: Suspicious activity found on your profile. Review now.",suspicious
+"Action Required: Someone tried to access your files from a new device.",suspicious
+"Verify your password regularly to keep your account safe.",suspicious
+"Double check the sender of this email before clicking links.",suspicious
+"Your subscription will expire in 3 days. Renew to stay connected.",suspicious
+"Hey, are you free for a call later today?",legit
+"Update on the team lunch: it's moved to 1 PM.",legit
+"Thanks for the help with the presentation.",legit
+"New security policy updated for your company account.",legit
+"Your order #9876 has been shipped.",legit
+"Click here to get millions in your account instantly!",phishing
+"Verify your credit card info to receive the refund.",phishing
+"System Update: Restart your computer to apply patches.",legit
+"Check out these photos from our trip last weekend!",legit
+"Your password has been changed successfully.",legit
+"Urgent: Immediate action required on your PayPal account.",phishing
+"Verify your Amazon account to prevent deletion.",phishing
+"Important document attached for your review.",suspicious
+"Please confirm your attendance at the workshop.",legit
+"Your bank account balance is below the threshold.",legit

@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="feedbackContainer">
+    <header class="feedbackHeader">
+        <h1 class="feedbackTitle">Project Feedback</h1>
+        <p class="aboutSubtitle">Please share your thoughts on the detection tool.</p>
+    </header>
+
+    <div id="feedback-form-container">
+        <form class="feedbackForm" id="feedback-form">
+            <div class="formGroup">
+                <label>How was your experience?</label>
+                <div class="emojiGroup">
+                    <button type="button" class="emojiButton" data-val="1" title="Did not like">
+                        <span class="emojiIcon">☹️</span>
+                        <span class="emojiLabel">Did not like</span>
+                    </button>
+                    <button type="button" class="emojiButton" data-val="3" title="Neutral">
+                        <span class="emojiIcon">😐</span>
+                        <span class="emojiLabel">Neutral</span>
+                    </button>
+                    <button type="button" class="emojiButton" data-val="5" title="Liked it">
+                        <span class="emojiIcon">🙂</span>
+                        <span class="emojiLabel">Liked it</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="formGroup">
+                <label>Your Suggestions:</label>
+                <textarea class="textarea" id="feedback-comment" placeholder="How can we improve this detector?"
+                    required></textarea>
+            </div>
+
+            <button class="btn btn-primary" type="submit" id="submit-feedback-btn" style="width: 100%;" disabled>
+                Submit Feedback
+            </button>
+        </form>
+    </div>
+
+    <div id="feedback-success" class="successCard" style="display: none;">
+        <h1>Feedback Received</h1>
+        <p>Thank you for your suggestions. Your input helps us improve the detection logic.</p>
+        <button class="btn btn-primary" id="restart-feedback-btn">
+            Submit Another Feedback
+        </button>
+    </div>
+</div>
+{% endblock %}

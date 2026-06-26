@@ -1,0 +1,16 @@
+Subject: Unusual Sign-in Activity Detected
+From: security@mybank-alerts.net
+Date: Wednesday, Feb 25, 2026
+
+Dear Customer,
+
+We detected an unusual sign-in to your account from a new device in a different location.
+Location: Moscow, Russia
+Device: Linux Desktop
+
+If this was not you, please verify your account immediately to prevent unauthorized access.
+
+Verify Now: http://mybank-verify-security.com/login
+
+Thank you,
+Bank Security Team

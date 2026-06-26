@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+env/
+venv/
+.env
+.vscode/
+*.zip
+*.bat
+database.db
+scan_logs.log

@@ -112,6 +112,11 @@ def get_db_connection():
     if db_type == 'sqlite':
         import sqlite3
         db_name = os.getenv('DB_NAME', 'database.db')
+        # Vercel filesystem is read-only except for /tmp.
+        # Redirect sqlite database to /tmp/database.db when running on Vercel.
+        if os.getenv('VERCEL') or os.getenv('VERCEL_ENV'):
+            db_name = '/tmp/database.db'
+            
         try:
             conn = sqlite3.connect(db_name)
             conn.execute("PRAGMA foreign_keys = ON")

@@ -5,13 +5,17 @@ import os
 import logging
 
 # Configure logging
+log_handlers = [logging.StreamHandler()]
+if not (os.getenv('VERCEL') or os.getenv('VERCEL_ENV')):
+    try:
+        log_handlers.append(logging.FileHandler("scan_logs.log"))
+    except Exception:
+        pass
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("scan_logs.log"),
-        logging.StreamHandler()
-    ]
+    handlers=log_handlers
 )
 logger = logging.getLogger("PhishingDetector")
 

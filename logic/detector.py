@@ -150,6 +150,16 @@ def analyze_email(text: str, sender_domain: str = "") -> dict:
     
     lower_text = text.lower()
     
+    # Early calculation of emotional deception score to boost risk dynamically
+    eds_breakdown = {
+        "fear": 0.45 if re.search(r'\b(suspended|block|close|disabled|terminated)\b', lower_text) else 0.0,
+        "urgency": 0.85 if re.search(r'\b(urgent|immediately|action required|24 hours)\b', lower_text) else 0.0,
+        "trust": 0.30 if re.search(r'\b(verify|secure|confirm|authenticate)\b', lower_text) else 0.0,
+        "greed": 0.70 if re.search(r'\b(winner|bonus|refund|lottery|prize)\b', lower_text) else 0.0,
+        "authority": 0.50 if re.search(r'\b(official|admin|support|security|irs|bank)\b', lower_text) else 0.0
+    }
+    eds_score = sum(eds_breakdown.values()) / len(eds_breakdown)
+    
     trusted_domains = ["amazon.in", "google.com", "microsoft.com", "apple.com", "github.com"]
     if sender_domain and any(sender_domain.lower().endswith(td) for td in trusted_domains):
         safe_signals.append(f"Sender domain ({sender_domain}) is a known trusted organization.")
@@ -185,6 +195,18 @@ def analyze_email(text: str, sender_domain: str = "") -> dict:
         risk_score += 30
         red_flags.append("Requests highly sensitive personal or financial information.")
 
+    # Dynamic risk boost based on emotional deception triggers
+    active_emotions = [k for k, v in eds_breakdown.items() if v > 0.0]
+    if len(active_emotions) >= 3:
+        risk_score += 35
+        red_flags.append(f"Multiple emotional manipulation tactics detected: {', '.join(active_emotions)}.")
+    elif "fear" in active_emotions and "urgency" in active_emotions:
+        risk_score += 30
+        red_flags.append("High-risk combination of fear and urgency detected.")
+    elif len(active_emotions) == 2:
+        risk_score += 15
+        reasons.append(f"Combined emotional triggers detected: {', '.join(active_emotions)}.")
+
     if safe_signals and not red_flags and risk_score < 40:
         risk_score = min(risk_score, 10.0)
 
@@ -197,15 +219,6 @@ def analyze_email(text: str, sender_domain: str = "") -> dict:
 
     verdict_level = get_risk_level(final_score)
     summary = f"This email is categorized as {verdict_level} based on analysis."
-
-    eds_breakdown = {
-        "fear": 0.45 if re.search(r'\b(suspended|block|close)\b', lower_text) else 0.0,
-        "urgency": 0.85 if re.search(r'\b(urgent|immediately)\b', lower_text) else 0.0,
-        "trust": 0.30 if re.search(r'\b(verify|secure)\b', lower_text) else 0.0,
-        "greed": 0.70 if re.search(r'\b(winner|bonus|refund)\b', lower_text) else 0.0,
-        "authority": 0.50 if re.search(r'\b(official|admin|support)\b', lower_text) else 0.0
-    }
-    eds_score = sum(eds_breakdown.values()) / len(eds_breakdown)
 
     return {
         "risk_score": float(f"{final_score:.2f}"),
@@ -230,7 +243,7 @@ def analyze_file(file_name: str) -> dict:
     
     lower_name = file_name.lower()
 
-    dangerous_exts = [".exe", ".bat", ".vbs", ".js", ".cmd", ".ps1", ".jar", ".scr"]
+    dangerous_exts = [".exe", ".bat", ".vbs", ".js", ".cmd", ".ps1", ".jar", ".scr", ".lnk", ".hta", ".wsf"]
     if any(lower_name.endswith(ext) for ext in dangerous_exts):
         risk_score += 80
         red_flags.append("Dangerous, highly-executable file extension detected.")
@@ -242,6 +255,20 @@ def analyze_file(file_name: str) -> dict:
         risk_score += 30
         red_flags.append("Double extension detected (e.g., summary.pdf.exe).")
         reasons.append("Often used to disguise malicious scripts as innocuous documents.")
+        
+        # Check for hidden dangerous extension inside the double extension
+        hidden_dangerous = [ext for ext in dangerous_exts if ext + "." in lower_name]
+        if hidden_dangerous:
+            risk_score += 50
+            red_flags.append(f"Hidden executable extension '{hidden_dangerous[0]}' detected inside double extension.")
+            reasons.append("Attackers hide executables within double extensions to trick users into opening them.")
+
+    risk_keywords = ["crack", "keychain", "hack", "bypass", "keyger", "keygen", "patcher", "malware", "virus"]
+    matched_file_kws = [kw for kw in risk_keywords if kw in lower_name]
+    if matched_file_kws:
+        risk_score += 25
+        red_flags.append(f"Suspicious security-bypass keywords detected in filename: {', '.join(matched_file_kws)}.")
+        reasons.append("Files containing security bypass words are highly likely to be malware/trojans.")
 
     final_score = max(0, min(100, risk_score))
     if final_score == 0 and not red_flags:
